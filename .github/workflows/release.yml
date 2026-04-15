@@ -60,9 +60,9 @@ jobs:
             binary:  sysmon-linux-amd64
 
           # ── macOS Intel ───────────────────────────────────────────────────
-          # macos-13 is the last Intel (amd64) GitHub-hosted runner.
+          # macos-15-intel provides the Intel (amd64) GitHub-hosted runner.
           - label:   macOS amd64
-            runner:  macos-13
+            runner:  macos-15-intel
             goos:    darwin
             goarch:  amd64
             cgo:     "1"
