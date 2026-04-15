@@ -226,7 +226,8 @@ let sendHistory = new Array(60).fill(0);
 cd frontend && bun run build && cd ..
 
 # Compile the Go binary (embeds frontend/dist/ inside the .exe)
-go build -o bin/sysmon.exe .
+# -H windowsgui suppresses the console window on Windows
+go build -ldflags="-s -w -H windowsgui" -o bin/sysmon.exe .
 ```
 
 The result is a single self-contained executable. Copy `bin/sysmon.exe` to any Windows machine — no installer, no runtime, no DLLs required.
@@ -280,5 +281,5 @@ Usually means the frontend was built with a different set of asset hashes than w
 ```bash
 rm -rf frontend/dist
 cd frontend && bun run build && cd ..
-go build -o bin/sysmon.exe .
+go build -ldflags="-s -w -H windowsgui" -o bin/sysmon.exe .
 ```

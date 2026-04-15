@@ -42,12 +42,15 @@ jobs:
           # ── Windows ──────────────────────────────────────────────────────
           # Wails v3 uses purego + go-winloader on Windows, so CGo is not
           # required and no C compiler needs to be in PATH.
+          # -H windowsgui tells the Windows linker to mark the binary as a
+          # GUI subsystem application, which suppresses the console window.
           - label:   Windows amd64
             runner:  windows-latest
             goos:    windows
             goarch:  amd64
             cgo:     "0"
             binary:  sysmon-windows-amd64.exe
+            ldflags: "-s -w -H windowsgui"
 
           # ── Linux ─────────────────────────────────────────────────────────
           # Wails v3 on Linux uses WebKit2GTK via CGo. The system packages are
@@ -58,6 +61,7 @@ jobs:
             goarch:  amd64
             cgo:     "1"
             binary:  sysmon-linux-amd64
+            ldflags: "-s -w"
 
           # ── macOS Intel ───────────────────────────────────────────────────
           # macos-15-intel provides the Intel (amd64) GitHub-hosted runner.
@@ -67,6 +71,7 @@ jobs:
             goarch:  amd64
             cgo:     "1"
             binary:  sysmon-darwin-amd64
+            ldflags: "-s -w"
 
           # ── macOS Apple Silicon ───────────────────────────────────────────
           # macos-latest resolves to an arm64 runner (M-series chip).
@@ -76,6 +81,7 @@ jobs:
             goarch:  arm64
             cgo:     "1"
             binary:  sysmon-darwin-arm64
+            ldflags: "-s -w"
 
     steps:
       # ── Source ─────────────────────────────────────────────────────────────
@@ -128,10 +134,11 @@ jobs:
         run: bun run build
 
       # ── Go binary ──────────────────────────────────────────────────────────
-      # -s -w strips debug symbols and DWARF info, reducing binary size
-      # by roughly 25–30% with no effect on runtime behaviour.
+      # ldflags come from the matrix — each platform has its own set.
+      # -s -w  strips debug symbols and DWARF info (~25-30% size reduction).
+      # -H windowsgui  (Windows only) suppresses the console window.
       - name: Build binary
-        run: go build -ldflags="-s -w" -o bin/${{ matrix.binary }} .
+        run: go build -ldflags="${{ matrix.ldflags }}" -o bin/${{ matrix.binary }} .
         env:
           GOOS:        ${{ matrix.goos }}
           GOARCH:      ${{ matrix.goarch }}
