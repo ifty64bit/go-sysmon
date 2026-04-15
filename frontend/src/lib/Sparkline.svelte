@@ -5,17 +5,28 @@
   The Y axis auto-scales to the maximum value in the current data window,
   with a minimum scale floor (minScale) to avoid jitter on near-zero data.
 
+  Sizing model:
+    - `width` and `height` define the internal SVG coordinate space (viewBox),
+      NOT the rendered pixel size. This keeps the point math simple and stable.
+    - The rendered width is always 100% of the parent container via CSS.
+    - `preserveAspectRatio="none"` lets the SVG stretch horizontally to fill
+      whatever space it is given without letterboxing.
+    - Only `height` controls the rendered pixel height.
+
   Usage:
-    <Sparkline data={sendHistory} color="var(--cyan)" width={220} height={48} />
+    <Sparkline data={sendHistory} color="var(--cyan)" height={48} />
 -->
 <script>
   /** Array of numeric values to plot (oldest → newest, left → right). */
   export let data = /** @type {number[]} */ ([]);
 
-  /** SVG width in pixels. */
-  export let width = 220;
+  /**
+   * Internal coordinate width used for point calculations.
+   * Does NOT set the rendered pixel width — CSS handles that (width: 100%).
+   */
+  export let width = 200;
 
-  /** SVG height in pixels. */
+  /** Rendered pixel height of the chart. */
   export let height = 48;
 
   /** Stroke and fill colour. */
@@ -47,7 +58,13 @@
   $: fillPoints = points ? `${points} ${width},${height} 0,${height}` : '';
 </script>
 
-<svg {width} {height} class="sparkline" aria-hidden="true">
+<svg
+  viewBox="0 0 {width} {height}"
+  {height}
+  preserveAspectRatio="none"
+  class="sparkline"
+  aria-hidden="true"
+>
   <!-- Filled area beneath the line (low opacity for subtlety) -->
   {#if fillPoints}
     <polygon
@@ -73,7 +90,7 @@
 <style>
   .sparkline {
     display: block;
-    /* Allow the glow filter to render outside the SVG boundary. */
+    width: 100%;   /* Stretch to fill the parent container. */
     overflow: visible;
   }
 </style>

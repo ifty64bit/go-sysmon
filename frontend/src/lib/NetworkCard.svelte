@@ -61,10 +61,10 @@
   -->
   <div class="charts">
     <div class="chart-wrap" aria-label="Upload history">
-      <Sparkline data={sendHistory} color="var(--cyan)" width={220} height={44} />
+      <Sparkline data={sendHistory} color="var(--cyan)" height={44} />
     </div>
     <div class="chart-wrap" aria-label="Download history">
-      <Sparkline data={recvHistory} color="var(--purple)" width={220} height={44} />
+      <Sparkline data={recvHistory} color="var(--purple)" height={44} />
     </div>
   </div>
 
