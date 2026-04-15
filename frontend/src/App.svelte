@@ -168,7 +168,6 @@
     height: 8px;
     border-radius: 50%;
     background: var(--cyan);
-    box-shadow: 0 0 8px var(--cyan);
     animation: live-pulse 2s ease-in-out infinite;
   }
   @keyframes live-pulse {
@@ -224,10 +223,17 @@
   }
 
   /* ── Top grid ────────────────────────────────────────────────────── */
+  /* Stacked by default; widens to 2 then 3 columns as space allows. */
   .top-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     gap: 16px;
+  }
+  @media (min-width: 680px) {
+    .top-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 960px) {
+    .top-grid { grid-template-columns: repeat(3, 1fr); }
   }
 
   /* ── Storage section ─────────────────────────────────────────────── */
@@ -247,10 +253,17 @@
   }
   .disk-row {
     display: flex;
+    flex-wrap: wrap;
     gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 6px; /* Space for the scrollbar. */
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
+  }
+  /* Only scroll horizontally when there's enough room to show cards side by side. */
+  @media (min-width: 680px) {
+    .disk-row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
   }
 </style>

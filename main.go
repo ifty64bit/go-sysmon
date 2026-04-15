@@ -51,8 +51,8 @@ func main() {
 		Title:            "SysMon",
 		Width:            1280,
 		Height:           820,
-		MinWidth:         960,
-		MinHeight:        640,
+		MinWidth:         400,
+		MinHeight:        500,
 		BackgroundColour: application.NewRGB(10, 10, 15),
 		Mac: application.MacWindow{
 			InvisibleTitleBarHeight: 50,

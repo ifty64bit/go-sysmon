@@ -71,9 +71,9 @@
 
 <style>
   .disk-card {
-    min-width: 180px;
-    max-width: 220px;
-    flex-shrink: 0; /* Prevent cards from collapsing inside the flex row. */
+    flex: 1 1 180px;  /* Grow to fill space, shrink no smaller than 180px. */
+    max-width: 260px; /* Cap width so cards don't balloon when there are few. */
+    min-width: 0;     /* Allow shrinking below 180px if the parent forces it. */
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 12px;

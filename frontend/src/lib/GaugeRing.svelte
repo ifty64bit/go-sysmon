@@ -75,7 +75,6 @@
       style="
         transition: stroke-dashoffset 0.7s cubic-bezier(0.4, 0, 0.2, 1),
                     stroke 0.4s ease;
-        filter: drop-shadow(0 0 5px {color});
       "
     />
   </svg>

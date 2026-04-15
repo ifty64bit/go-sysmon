@@ -176,6 +176,5 @@
     height: 100%;
     border-radius: 99px;
     transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 6px currentColor;
   }
 </style>
